@@ -1701,17 +1701,7 @@ let lookTimer = 3 + Math.random() * 5;
         spine.rotation.z = Math.sin(idleTime * 0.7) * 0.015;
     }
 
-    // Movimiento de cadera
-    if(hips){
-        hips.rotation.z = Math.sin(idleTime * 0.7) * 0.01;
-        hips.position.y = Math.sin(idleTime * 2.2) * 0.0015;
-    }
-
     // Brazos relajados
-    if(leftUpperArm){
-    leftUpperArm.rotation.z = THREE.MathUtils.degToRad(-25) + Math.sin(idleTime * 1.3) * 0.02;
-	rightUpperArm.rotation.z = THREE.MathUtils.degToRad(25) - Math.sin(idleTime * 1.3) * 0.02;
-    }
 
     if(rightUpperArm){
         rightUpperArm.rotation.z -= Math.sin(idleTime * 1.3) * 0.004;
