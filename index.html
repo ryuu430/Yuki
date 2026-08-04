@@ -1702,6 +1702,35 @@ let lookTimer = 3 + Math.random() * 5;
     }
 
 }
+			function applyIdlePose() {
+
+    if (!currentVrm) return;
+
+    const H = currentVrm.humanoid;
+
+    function setBone(name, x = 0, y = 0, z = 0) {
+
+        const bone = H.getNormalizedBoneNode(name);
+
+        if (!bone) return;
+
+        bone.rotation.set(x, y, z);
+
+    }
+
+    // Brazos ligeramente caídos
+    setBone("leftUpperArm", 0.25, 0, -0.35);
+    setBone("rightUpperArm", 0.25, 0, 0.35);
+
+    // Codos ligeramente doblados
+    setBone("leftLowerArm", -0.45, 0, 0);
+    setBone("rightLowerArm", -0.45, 0, 0);
+
+    // Muñecas
+    setBone("leftHand", 0.05, 0, -0.05);
+    setBone("rightHand", 0.05, 0, 0.05);
+
+}
 			function animate() {
 				requestAnimationFrame( animate );
 
