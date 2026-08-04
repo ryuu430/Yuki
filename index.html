@@ -1679,18 +1679,61 @@ let lookTimer = 3 + Math.random() * 5;
     const head  = humanoid.getNormalizedBoneNode("head");
     const spine = humanoid.getNormalizedBoneNode("spine");
 
+    const hips = humanoid.getNormalizedBoneNode("hips");
+
+    const leftUpperArm = humanoid.getNormalizedBoneNode("leftUpperArm");
+    const rightUpperArm = humanoid.getNormalizedBoneNode("rightUpperArm");
+
+    const leftHand = humanoid.getNormalizedBoneNode("leftHand");
+    const rightHand = humanoid.getNormalizedBoneNode("rightHand");
+
+    const leftUpperLeg = humanoid.getNormalizedBoneNode("leftUpperLeg");
+    const rightUpperLeg = humanoid.getNormalizedBoneNode("rightUpperLeg");
+
     // Respiración
     if(chest){
-
         chest.rotation.x = Math.sin(idleTime * 2.2) * 0.02;
         chest.position.y = Math.sin(idleTime * 2.2) * 0.002;
-
     }
+
     // Balanceo del cuerpo
     if(spine){
-
         spine.rotation.z = Math.sin(idleTime * 0.7) * 0.015;
+    }
 
+    // Movimiento de cadera
+    if(hips){
+        hips.rotation.z = Math.sin(idleTime * 0.7) * 0.01;
+        hips.position.y = Math.sin(idleTime * 2.2) * 0.0015;
+    }
+
+    // Brazos relajados
+    if(leftUpperArm){
+        leftUpperArm.rotation.z += Math.sin(idleTime * 1.3) * 0.004;
+        leftUpperArm.rotation.x += Math.sin(idleTime * 1.9) * 0.002;
+    }
+
+    if(rightUpperArm){
+        rightUpperArm.rotation.z -= Math.sin(idleTime * 1.3) * 0.004;
+        rightUpperArm.rotation.x += Math.sin(idleTime * 1.9) * 0.002;
+    }
+
+    // Manos
+    if(leftHand){
+        leftHand.rotation.x = Math.sin(idleTime * 2.8) * 0.03;
+    }
+
+    if(rightHand){
+        rightHand.rotation.x = -Math.sin(idleTime * 2.8) * 0.03;
+    }
+
+    // Cambiar peso entre piernas
+    if(leftUpperLeg){
+        leftUpperLeg.rotation.z = Math.sin(idleTime * 0.5) * 0.01;
+    }
+
+    if(rightUpperLeg){
+        rightUpperLeg.rotation.z = -Math.sin(idleTime * 0.5) * 0.01;
     }
 
     // Elegir nueva dirección de mirada
@@ -1702,27 +1745,22 @@ let lookTimer = 3 + Math.random() * 5;
         targetPitch = (Math.random()-0.5) * 0.10;
 
         lookTimer = 3 + Math.random()*5;
-
     }
 
     headYaw += (targetYaw-headYaw)*0.03;
     headPitch += (targetPitch-headPitch)*0.03;
 
     if(head){
-
         head.rotation.y = headYaw;
         head.rotation.x = headPitch;
-
     }
 
     // Parpadeo
     blinkTimer -= delta;
 
     if(blinkTimer <= 0 && !blinking){
-
         blinking = true;
         blinkDuration = 0.12;
-
     }
 
     if(blinking){
@@ -1738,11 +1776,8 @@ let lookTimer = 3 + Math.random() * 5;
             blinking = false;
 
             blinkTimer = 2 + Math.random()*4;
-
         }
-
     }
-
 }
 			function animate() {
 				requestAnimationFrame( animate );
@@ -1758,8 +1793,6 @@ let lookTimer = 3 + Math.random() * 5;
 				if ( currentVrm ) {
 					currentVrm.update( deltaTime );
 					updateIdle(deltaTime);
-					leftUpperArm.rotation.z += Math.sin(t * 1.3) * 0.01;
-					rightUpperArm.rotation.z -= Math.sin(t * 1.3) * 0.01;
 				}
 				if ( activeTab === 'pose' ) {
 					updateBoneHandles();
