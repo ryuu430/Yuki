@@ -543,7 +543,6 @@
 								scene.add( vrm.scene );
 								vrm.scene.rotation.y = Math.PI; // モデルを正面に回転
 								currentVrm = vrm;
-								applyIdlePose();
 
 								// Create a new AnimationMixer for the current VRM
 								currentMixer = new THREE.AnimationMixer( vrm.scene );
@@ -1746,6 +1745,7 @@ let lookTimer = 3 + Math.random() * 5;
 				if ( currentVrm ) {
 					currentVrm.update( deltaTime );
 					updateIdle(deltaTime);
+					applyIdlePose();
 				}
 				if ( activeTab === 'pose' ) {
 					updateBoneHandles();
