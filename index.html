@@ -737,6 +737,21 @@
 					}
 					statusDiv.textContent = 'アニメーションが停止しました。';
 				}
+				
+			
+
+			// --- UI and Event Handlers ---
+			/**
+			 * Updates the state of the control buttons based on loaded files.
+			 */
+			function updateButtons() {
+				const hasVrm = currentVrm !== undefined;
+				const hasVrma = vrmaAnimationClip !== undefined;
+
+				// Enable VRMA selection buttons once VRM is loaded
+				vrmaButtonsContainer.querySelectorAll('.vrma-btn').forEach(btn => {
+					btn.disabled = !hasVrm;
+				});
 				function applyIdlePose() {
 	if (!currentVrm) return;
 
@@ -787,20 +802,6 @@
 
 	syncAllSliders();
 }
-			
-
-			// --- UI and Event Handlers ---
-			/**
-			 * Updates the state of the control buttons based on loaded files.
-			 */
-			function updateButtons() {
-				const hasVrm = currentVrm !== undefined;
-				const hasVrma = vrmaAnimationClip !== undefined;
-
-				// Enable VRMA selection buttons once VRM is loaded
-				vrmaButtonsContainer.querySelectorAll('.vrma-btn').forEach(btn => {
-					btn.disabled = !hasVrm;
-				});
 
 				// Enable play/pause/stop buttons only if both VRM and an animation are loaded
 				playBtn.disabled = !(hasVrm && hasVrma);
