@@ -1547,7 +1547,99 @@
 
 			// --- Animation Loop ---
 			const clock = new THREE.Clock();
+			// ---------- Idle Manager ----------
+let idleTime = 0;
 
+let blinkTimer = 2 + Math.random() * 4;
+let blinkDuration = 0;
+let blinking = false;
+
+let headYaw = 0;
+let headPitch = 0;
+
+let targetYaw = 0;
+let targetPitch = 0;
+
+let lookTimer = 3 + Math.random() * 5;
+			
+			function updateIdle(delta){
+
+    if(!currentVrm) return;
+
+    idleTime += delta;
+
+    const humanoid = currentVrm.humanoid;
+
+    const chest = humanoid.getNormalizedBoneNode("chest");
+    const head  = humanoid.getNormalizedBoneNode("head");
+    const spine = humanoid.getNormalizedBoneNode("spine");
+
+    // Respiración
+    if(chest){
+
+        chest.rotation.x = Math.sin(idleTime * 2.2) * 0.02;
+        chest.position.y = Math.sin(idleTime * 2.2) * 0.002;
+
+    }
+
+    // Balanceo del cuerpo
+    if(spine){
+
+        spine.rotation.z = Math.sin(idleTime * 0.7) * 0.015;
+
+    }
+
+    // Elegir nueva dirección de mirada
+    lookTimer -= delta;
+
+    if(lookTimer <= 0){
+
+        targetYaw = (Math.random()-0.5) * 0.25;
+        targetPitch = (Math.random()-0.5) * 0.10;
+
+        lookTimer = 3 + Math.random()*5;
+
+    }
+
+    headYaw += (targetYaw-headYaw)*0.03;
+    headPitch += (targetPitch-headPitch)*0.03;
+
+    if(head){
+
+        head.rotation.y = headYaw;
+        head.rotation.x = headPitch;
+
+    }
+
+    // Parpadeo
+    blinkTimer -= delta;
+
+    if(blinkTimer <= 0 && !blinking){
+
+        blinking = true;
+        blinkDuration = 0.12;
+
+    }
+
+    if(blinking){
+
+        blinkDuration -= delta;
+
+        currentVrm.expressionManager?.setValue("blink",1);
+
+        if(blinkDuration <= 0){
+
+            currentVrm.expressionManager?.setValue("blink",0);
+
+            blinking = false;
+
+            blinkTimer = 2 + Math.random()*4;
+
+        }
+
+    }
+
+}
 			function animate() {
 				requestAnimationFrame( animate );
 
@@ -1561,6 +1653,7 @@
 				}
 				if ( currentVrm ) {
 					currentVrm.update( deltaTime );
+					updateIdle(deltaTime);
 				}
 				if ( activeTab === 'pose' ) {
 					updateBoneHandles();
