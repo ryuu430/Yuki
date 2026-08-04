@@ -1758,8 +1758,6 @@ let lookTimer = 3 + Math.random() * 5;
 				if ( currentVrm ) {
 					currentVrm.update( deltaTime );
 					updateIdle(deltaTime);
-					leftUpperArm.rotation.z += Math.sin(t * 1.3) * 0.01;
-					rightUpperArm.rotation.z -= Math.sin(t * 1.3) * 0.01;
 				}
 				if ( activeTab === 'pose' ) {
 					updateBoneHandles();
