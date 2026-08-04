@@ -543,6 +543,7 @@
 								scene.add( vrm.scene );
 								vrm.scene.rotation.y = Math.PI; // モデルを正面に回転
 								currentVrm = vrm;
+								applyIdlePose();
 
 								// Create a new AnimationMixer for the current VRM
 								currentMixer = new THREE.AnimationMixer( vrm.scene );
@@ -736,7 +737,57 @@
 					}
 					statusDiv.textContent = 'アニメーションが停止しました。';
 				}
-			}
+				function applyIdlePose() {
+	if (!currentVrm) return;
+
+	const h = currentVrm.humanoid;
+
+	const set = (bone, x = 0, y = 0, z = 0) => {
+		const node = h.getNormalizedBoneNode(bone);
+		if (!node) return;
+
+		node.rotation.set(
+			THREE.MathUtils.degToRad(x),
+			THREE.MathUtils.degToRad(y),
+			THREE.MathUtils.degToRad(z)
+		);
+	};
+
+	// Reiniciar pose
+	h.resetNormalizedPose();
+
+	// Cuerpo
+	set("hips", 0, 0, 0);
+	set("spine", 3, 0, 0);
+	set("chest", 4, 0, 0);
+	set("neck", -1, 0, 0);
+	set("head", -2, 0, 0);
+
+	// Brazo izquierdo
+	set("leftShoulder", 0, 0, -8);
+	set("leftUpperArm", 10, 0, -25);
+	set("leftLowerArm", -12, 0, -5);
+	set("leftHand", 5, 0, 0);
+
+	// Brazo derecho
+	set("rightShoulder", 0, 0, 8);
+	set("rightUpperArm", 10, 0, 25);
+	set("rightLowerArm", -12, 0, 5);
+	set("rightHand", 5, 0, 0);
+
+	// Pierna izquierda
+	set("leftUpperLeg", -3, 0, -2);
+	set("leftLowerLeg", 4, 0, 0);
+	set("leftFoot", -2, 0, 0);
+
+	// Pierna derecha
+	set("rightUpperLeg", -3, 0, 2);
+	set("rightLowerLeg", 4, 0, 0);
+	set("rightFoot", -2, 0, 0);
+
+	syncAllSliders();
+}
+			
 
 			// --- UI and Event Handlers ---
 			/**
