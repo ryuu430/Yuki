@@ -728,7 +728,7 @@
 					// lookAt's own stored yaw/pitch, which would otherwise disagree with the
 					// now-rest eyes until the next gaze change).
 					if (currentVrm) {
-						currentVrm.humanoid.resetNormalizedPose();
+						applyIdlePose();
 						currentVrm.humanoid.resetRawPose();
 						currentVrm.expressionManager?.resetValues();
 						currentVrm.lookAt?.reset();
@@ -1209,7 +1209,7 @@
 
 			resetPoseBtn.addEventListener('click', () => {
 				if (!currentVrm) return;
-				currentVrm.humanoid.resetNormalizedPose();
+				applyIdlePose();
 				syncAllSliders();
 			});
 
