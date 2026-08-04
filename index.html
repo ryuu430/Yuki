@@ -1484,6 +1484,58 @@
 			 */
 			function freezeAnimationForEditing() {
 				if (!currentVrm || !currentAction) return;
+				function relaxHands() {
+
+    if (!currentVrm) return;
+
+    const H = currentVrm.humanoid;
+
+    function bendFinger(side, finger, p1, p2, p3) {
+
+        const b1 = H.getNormalizedBoneNode(`${side}${finger}Proximal`);
+        const b2 = H.getNormalizedBoneNode(`${side}${finger}Intermediate`);
+        const b3 = H.getNormalizedBoneNode(`${side}${finger}Distal`);
+
+        if (b1) b1.rotation.x = p1;
+        if (b2) b2.rotation.x = p2;
+        if (b3) b3.rotation.x = p3;
+
+    }
+
+    // Índice
+    bendFinger("left","Index",-0.18,-0.28,-0.22);
+    bendFinger("right","Index",-0.18,-0.28,-0.22);
+
+    // Corazón
+    bendFinger("left","Middle",-0.30,-0.40,-0.30);
+    bendFinger("right","Middle",-0.30,-0.40,-0.30);
+
+    // Anular
+    bendFinger("left","Ring",-0.38,-0.48,-0.35);
+    bendFinger("right","Ring",-0.38,-0.48,-0.35);
+
+    // Meñique
+    bendFinger("left","Little",-0.45,-0.55,-0.40);
+    bendFinger("right","Little",-0.45,-0.55,-0.40);
+
+    // Pulgar
+    const thumbs = [
+        "leftThumbProximal","leftThumbIntermediate","leftThumbDistal",
+        "rightThumbProximal","rightThumbIntermediate","rightThumbDistal"
+    ];
+
+    thumbs.forEach(name => {
+
+        const bone = H.getNormalizedBoneNode(name);
+
+        if (!bone) return;
+
+        bone.rotation.z = 0.25;
+        bone.rotation.x = -0.15;
+
+    });
+
+}
 
 				const capturedPose = new Map();
 				sliderRefs.forEach((_refs, boneName) => {
