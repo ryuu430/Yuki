@@ -318,7 +318,7 @@
 			<div id="animationPanel" class="tab-panel">
 				<div>
 					<label>VRM Model:</label>
-					<span id="vrmName">Yuki(conf_v6).vrm</span>
+					<span id="vrmName">Yuki(cyber_wolf_elf_v6).vrm</span>
 					<button id="openFileBtn">Open .vrm / .vrma…</button>
 					<input type="file" id="filePicker" accept=".vrm,.vrma" multiple hidden />
 				</div>
@@ -448,7 +448,7 @@
 			} );
 
 			// --- File Paths ---
-			const VRM_MODEL_URL = './VRM/Yuki(conf_v6)'; // Fixed VRM model path (relative path)
+			const VRM_MODEL_URL = './VRM/Yuki(cyber_wolf_elf_v6)'; // Fixed VRM model path (relative path)
 			const VRMA_ANIMATIONS = [ // Bundled VRMA animations (name + relative path)
 				{ name: 'Angry', url: './VRMA/Angry.vrma' },
 				{ name: 'Blush', url: './VRMA/Blush.vrma' },
@@ -1776,7 +1776,7 @@ let lookTimer = 3 + Math.random() * 5;
 			// --- Initial Load ---
 			// Load the fixed VRM model when the page loads
 			window.addEventListener('DOMContentLoaded', async () => {
-				await loadVRM(VRM_MODEL_URL, 'Yuki(conf_v6).vrm');
+				await loadVRM(VRM_MODEL_URL, 'Yuki(cyber_wolf_elf_v6).vrm');
 				updateButtons(); // Update button states after VRM is loaded
 			});
 		</script>
